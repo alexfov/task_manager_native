@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
-import { init } from "./personalActions";
-import { getData, sortData } from "./personalFunctions";
+import { init } from "./objectsActions";
+import { getData, sortData } from "./objectsFunctions";
 import FlatListItem from "../../components/FlatlistItem";
+import { addObject } from "../tasks/tasksActions";
 
-function Personal(props) {
-    const personal = useSelector((state) => state.personal);
+function Objects(props) {
+    const objects = useSelector((state) => state.objects);
     const dispatch = useDispatch();
     useEffect(() => {
         getData()
@@ -18,16 +19,15 @@ function Personal(props) {
     const renderItem = ({ item, index }) => {
         return (
             <FlatListItem
-                name={item.last + " " + item.first}
+                name={item.name}
                 group={
-                    personal[index]?.group !== personal[index - 1]?.group &&
-                    item.group
+                    objects[index]?.direction !==
+                        objects[index - 1]?.direction &&
+                    item.direction.slice(0, 1)
                 }
-                iconName={
-                    item.isGeodesist ? "account-hard-hat" : "baby-face-outline"
-                }
-                adress={item.adress}
-                onPress={() => console.log(item.id)}
+                iconName="highway"
+                adress={item.direction}
+                onPress={() => dispatch(addObject(item.id))}
             />
         );
     };
@@ -35,7 +35,7 @@ function Personal(props) {
     return (
         <SafeAreaView>
             <FlatList
-                data={personal}
+                data={objects}
                 renderItem={renderItem}
                 keyExtractor={(item) => String(item.id)}
             />
@@ -43,6 +43,6 @@ function Personal(props) {
     );
 }
 
-export default Personal;
+export default Objects;
 
 const styles = StyleSheet.create({});

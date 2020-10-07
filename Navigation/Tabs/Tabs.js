@@ -1,12 +1,18 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Cars from "../../components/Cars";
+import Cars from "../../features/cars";
 import Personal from "../../features/personal";
-import WorkObjects from "../../components/WorkObjects";
-import Tasks from "../../components/Tasks";
+import Objects from "../../features/objects";
+import Tasks from "../../features/tasks";
 import styles from "./Styles";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+
+export const navigationRef = React.createRef();
+
+export function navigate(name, params) {
+    navigationRef.current?.navigate(name, params);
+}
 
 export function getHeaderTitle(route) {
     const routeName = getFocusedRouteNameFromRoute(route) ?? "cars";
@@ -79,7 +85,7 @@ const TabBarNavigation = ({ navigation, route }) => {
             />
             <Tab.Screen
                 name="objects"
-                component={WorkObjects}
+                component={Objects}
                 options={{
                     tabBarLabel: "Объекты",
                     tabBarIcon: objectsTabIcon,

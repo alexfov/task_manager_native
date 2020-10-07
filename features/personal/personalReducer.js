@@ -2,7 +2,7 @@ export function personalReducer(state = [], action) {
     switch (action.type) {
         case "personal/init":
             return [...action.payload];
-        case "personal/addEmpolyee":
+        case "personal/add":
             return state;
 
         default:
