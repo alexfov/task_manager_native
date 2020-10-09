@@ -1,11 +1,12 @@
-import { TASKS_INIT, TASKS_ADD_OBJECT } from "./tasksConstants";
+import {
+    TASKS_INIT,
+    TASKS_ADD_OBJECT,
+    TASKS_SET_ACTIVE_OBJECT,
+} from "./tasksConstants";
 
 const initialState = {
     isInitialized: false,
-    objects: [],
-    cars: [],
-    personal: [],
-    tasks: [],
+    activeObject: null,
 };
 
 export function tasksReducer(state = initialState, action) {
@@ -18,7 +19,12 @@ export function tasksReducer(state = initialState, action) {
                 ...state,
                 objects: state.objects.concat([action.payload]),
             };
-
+        case TASKS_SET_ACTIVE_OBJECT:
+            if (!state.isInitialized) return state;
+            return {
+                ...state,
+                activeObject: action.payload,
+            };
         default:
             return state;
     }

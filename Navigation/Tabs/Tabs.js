@@ -7,6 +7,7 @@ import Objects from "../../features/objects";
 import Tasks from "../../features/tasks";
 import styles from "./Styles";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 export const navigationRef = React.createRef();
 
@@ -49,6 +50,8 @@ const tasksTabIcon = ({ focused, color }) => {
 };
 
 const TabBarNavigation = ({ navigation, route }) => {
+    const currentObjectId = useSelector((state) => state.tasks.activeObject);
+    console.log(currentObjectId);
     React.useLayoutEffect(() => {
         navigation.setOptions({ headerTitle: getHeaderTitle(route) });
     }, [navigation, route]);
@@ -68,19 +71,11 @@ const TabBarNavigation = ({ navigation, route }) => {
             }}
         >
             <Tab.Screen
-                name="cars"
-                component={Cars}
+                name="tasks"
+                component={Tasks}
                 options={{
-                    tabBarLabel: "Машины",
-                    tabBarIcon: carsTabIcon,
-                }}
-            />
-            <Tab.Screen
-                name="personal"
-                component={Personal}
-                options={{
-                    tabBarLabel: "Персонал",
-                    tabBarIcon: personalTabIcon,
+                    tabBarLabel: "Задания",
+                    tabBarIcon: tasksTabIcon,
                 }}
             />
             <Tab.Screen
@@ -92,11 +87,19 @@ const TabBarNavigation = ({ navigation, route }) => {
                 }}
             />
             <Tab.Screen
-                name="tasks"
-                component={Tasks}
+                name="personal"
+                component={Personal}
                 options={{
-                    tabBarLabel: "Задания",
-                    tabBarIcon: tasksTabIcon,
+                    tabBarLabel: "Персонал",
+                    tabBarIcon: personalTabIcon,
+                }}
+            />
+            <Tab.Screen
+                name="cars"
+                component={Cars}
+                options={{
+                    tabBarLabel: "Машины",
+                    tabBarIcon: carsTabIcon,
                 }}
             />
         </Tab.Navigator>

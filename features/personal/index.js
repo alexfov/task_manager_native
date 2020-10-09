@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
-import { init } from "./personalActions";
+import { bindEmployee, init } from "./personalActions";
 import { getData, sortData } from "./personalFunctions";
 import FlatListItem from "../../components/FlatlistItem";
 
 function Personal(props) {
     const personal = useSelector((state) => state.personal);
+    const objId = useSelector((state) => state.tasks.activeObject);
     const dispatch = useDispatch();
     useEffect(() => {
         getData()
@@ -27,7 +28,7 @@ function Personal(props) {
                     item.isGeodesist ? "account-hard-hat" : "baby-face-outline"
                 }
                 adress={item.adress}
-                onPress={() => console.log(item.id)}
+                onPress={() => dispatch(bindEmployee({ id: item.id, objId }))}
             />
         );
     };

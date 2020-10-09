@@ -10,7 +10,7 @@ const getIcon = (iconName) => {
     return <Icon name={iconName} size={iconSize} color={iconColor} />;
 };
 
-function FlatListItem({ name, group, iconName, adress, index, onPress }) {
+function FlatListItem({ name, group, iconName, adress, onPress }) {
     return (
         <BaseButton onPress={onPress}>
             <View style={styles.item}>

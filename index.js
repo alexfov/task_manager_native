@@ -7,6 +7,10 @@ import rootReducer from "./Reducers/rootReducer";
 import { createStore } from "redux";
 import ActionBtn from "./components/ActionBtn";
 
+Array.prototype.getElemById = function (id) {
+    return this[this.findIndex((elem) => elem.id === id)];
+};
+
 const store = createStore(
     rootReducer,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

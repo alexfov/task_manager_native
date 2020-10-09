@@ -4,6 +4,7 @@ import { personal as personalDb } from "../../Database/personal";
 export async function getData() {
     const dataStorage = await AsyncStorage.getItem("personal");
     const data = dataStorage ?? personalDb;
+    data.forEach((x) => (x.belongs = null));
     return data;
 }
 

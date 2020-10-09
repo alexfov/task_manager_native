@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { init } from "./objectsActions";
 import { getData, sortData } from "./objectsFunctions";
 import FlatListItem from "../../components/FlatlistItem";
-import { addObject } from "../tasks/tasksActions";
+import { setActiveObject } from "../tasks/tasksActions";
 
 function Objects(props) {
     const objects = useSelector((state) => state.objects);
@@ -27,7 +27,7 @@ function Objects(props) {
                 }
                 iconName="highway"
                 adress={item.direction}
-                onPress={() => dispatch(addObject(item.id))}
+                onPress={() => dispatch(setActiveObject(item.id))}
             />
         );
     };

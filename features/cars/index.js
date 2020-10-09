@@ -9,7 +9,7 @@ import {
 } from "react-native";
 // import ActionBtn from "../../components/ActionBtn";
 import { useDispatch, useSelector } from "react-redux";
-import { init } from "./carsAtions";
+import { bindCar, init } from "./carsAtions";
 import { getData, sortData } from "./carsFunctions";
 import FlatListItem from "../../components/FlatlistItem";
 import { FlatList } from "react-native-gesture-handler";
@@ -18,6 +18,7 @@ const { height, width } = Dimensions.get("window");
 
 function Cars({ navigation }) {
     const cars = useSelector((state) => state.cars);
+    const objId = useSelector((state) => state.tasks.activeObject);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -36,6 +37,7 @@ function Cars({ navigation }) {
                 }
                 iconName="car"
                 adress={item.owner}
+                onPress={() => dispatch(bindCar({ id: item.id, objId }))}
             />
         );
     };
@@ -46,12 +48,6 @@ function Cars({ navigation }) {
                 data={cars}
                 renderItem={renderItem}
                 keyExtractor={(item) => String(item.id)}
-            />
-            <Button
-                onPress={() => {
-                    navigation.navigate("carAddModal");
-                }}
-                title="Open Modal"
             />
         </SafeAreaView>
     );

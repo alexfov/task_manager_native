@@ -4,7 +4,11 @@ import { objects as objectsDb } from "../../Database/objects";
 export async function getData() {
     const dataStorage = await AsyncStorage.getItem("objects");
     const data = dataStorage ?? objectsDb;
-    data.forEach((item) => (item.isFilled = false));
+    data.forEach((item) => {
+        item.cars = new Set();
+        item.personal = new Set();
+        item.tasks = new Set();
+    });
     return data;
 }
 

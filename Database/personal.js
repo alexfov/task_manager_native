@@ -49,8 +49,8 @@ let personal = [
     },
     {
         id: 6,
-        first: "Карницкий",
-        last: "Вячеслав",
+        first: "Вячеслав",
+        last: "Карницкий",
         isGeodesist: false,
         group: groups[1],
         adress: "Сертлово",
