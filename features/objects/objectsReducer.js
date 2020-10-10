@@ -11,15 +11,6 @@ export function objectsReducer(state = [], action) {
             return [...action.payload];
         case OBJECTS_ADD:
             return [...state, payload];
-        // case OBJECTS_ADD_EMPLOYEE:
-        //     const i = stateCopy.findIndex(
-        //         (x) => x.id === action.payload.activeObj
-        //     );
-        //     stateCopy[i].personal = new Set(stateCopy[i].personal).add(
-        //         action.payload.id
-        //     );
-        //     console.log(stateCopy);
-        //     return stateCopy;
         default:
             return state;
     }

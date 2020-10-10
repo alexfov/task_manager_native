@@ -7,7 +7,9 @@ import { getData, sortData } from "./personalFunctions";
 import FlatListItem from "../../components/FlatlistItem";
 
 function Personal(props) {
-    const personal = useSelector((state) => state.personal);
+    const personal = useSelector((state) =>
+        state.personal.filter((employee) => employee.belongs == null)
+    );
     const objId = useSelector((state) => state.tasks.activeObject);
     const dispatch = useDispatch();
     useEffect(() => {

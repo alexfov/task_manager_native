@@ -51,10 +51,17 @@ const tasksTabIcon = ({ focused, color }) => {
 
 const TabBarNavigation = ({ navigation, route }) => {
     const currentObjectId = useSelector((state) => state.tasks.activeObject);
-    console.log(currentObjectId);
+    const currentObjectName = useSelector((state) => {
+        const objItem = state.objects.filter(
+            (x) => x.id === currentObjectId
+        )[0];
+        return objItem === undefined ? "Объект не выбран" : objItem.name;
+    });
+
     React.useLayoutEffect(() => {
-        navigation.setOptions({ headerTitle: getHeaderTitle(route) });
-    }, [navigation, route]);
+        navigation.setOptions({ headerTitle: currentObjectName });
+    }, [currentObjectName]);
+
     return (
         <Tab.Navigator
             tabBarPosition="bottom"

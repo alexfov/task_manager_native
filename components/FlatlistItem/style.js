@@ -24,6 +24,7 @@ export default styles = StyleSheet.create({
     },
     textContainer: {
         paddingLeft: 16,
+        flex: 1,
     },
     name: {
         fontSize: 16,

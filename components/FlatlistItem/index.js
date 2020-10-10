@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableNativeFeedback } from "react-native";
 import { BaseButton } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Touchable from "../Touchable";
 import styles from "./style";
 
 const getIcon = (iconName) => {
@@ -10,9 +11,9 @@ const getIcon = (iconName) => {
     return <Icon name={iconName} size={iconSize} color={iconColor} />;
 };
 
-function FlatListItem({ name, group, iconName, adress, onPress }) {
+function FlatListItem({ name, group, iconName, adress, onPress, belongs }) {
     return (
-        <BaseButton onPress={onPress}>
+        <Touchable onPress={onPress}>
             <View style={styles.item}>
                 <View style={styles.group}>
                     <Text style={styles.groupText}>{group}</Text>
@@ -20,16 +21,19 @@ function FlatListItem({ name, group, iconName, adress, onPress }) {
                 <View>
                     <View style={styles.avatar}>{getIcon(iconName)}</View>
                 </View>
-                <View style={styles.textContainer}>
-                    <View>
+                <View style={[styles.textContainer, {}]}>
+                    <View style={{ flex: 1 }}>
                         <Text style={styles.name}>{name}</Text>
                     </View>
-                    <View>
+                    <View style={{ flex: 1 }}>
                         <Text style={styles.adress}>{adress}</Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <Text style={styles.adress}>{belongs}</Text>
                     </View>
                 </View>
             </View>
-        </BaseButton>
+        </Touchable>
     );
 }
 

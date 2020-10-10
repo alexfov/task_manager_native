@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-    Text,
-    View,
-    StyleSheet,
-    Button,
-    TouchableNativeFeedback,
-    Vibration,
-} from "react-native";
-import { BaseButton, FlatList } from "react-native-gesture-handler";
+import { Text, View, StyleSheet, Button, Vibration } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
-import FlatListItem from "../../components/FlatlistItem";
 import { init } from "./tasksActions";
+import Touchable from "../../components/Touchable";
+import { unbindEmployee } from "../personal/personalActions";
+import { unbindCar } from "../cars/carsAtions";
+import TasksFlatListItem from "./tasksFlatListItem";
 
 function Tasks(props) {
     const { cars, personal, objects } = useSelector((state) => state);
@@ -40,38 +36,11 @@ function Tasks(props) {
     const renderItem = ({ item }) => {
         if (item.cars.length === 0 && item.personal.length === 0) return;
         return (
-            <FlatListItem
+            <TasksFlatListItem
                 name={item.name}
                 iconName="map-marker"
-                adress={
-                    <View>
-                        <View style={styles.carsBlock}>
-                            {item.cars.map((car) => (
-                                <BaseButton
-                                    key={car.id}
-                                    onPress={() => console.log(car.id)}
-                                >
-                                    <Text style={styles.carText}>
-                                        / {car.name}{" "}
-                                    </Text>
-                                </BaseButton>
-                            ))}
-                        </View>
-                        <View>
-                            {item.personal.map((employee, ind) => (
-                                <BaseButton
-                                    key={employee.id}
-                                    onPress={() => console.log(employee.id)}
-                                    onLongPress={() => console.log(222)}
-                                >
-                                    <Text style={styles.carText}>
-                                        {ind + 1}. {employee.name}
-                                    </Text>
-                                </BaseButton>
-                            ))}
-                        </View>
-                    </View>
-                }
+                cars={item.cars}
+                personal={item.personal}
             />
         );
     };
@@ -84,17 +53,6 @@ function Tasks(props) {
                     dispatch(init());
                 }}
             ></Button>
-            <TouchableNativeFeedback
-                delayLongPress={100}
-                onLongPress={() => {
-                    console.log(222);
-                    Vibration.vibrate(100);
-                }}
-            >
-                <View>
-                    <Text>{"ssssssssss"}</Text>
-                </View>
-            </TouchableNativeFeedback>
             <FlatList
                 data={objectsToRender}
                 renderItem={renderItem}
@@ -105,16 +63,3 @@ function Tasks(props) {
 }
 
 export default Tasks;
-
-const styles = StyleSheet.create({
-    carsBlock: {
-        flexDirection: "row",
-    },
-    carText: {
-        paddingVertical: 5,
-        paddingHorizontal: 2.5,
-    },
-    personalText: {
-        paddingVertical: 2.5,
-    },
-});

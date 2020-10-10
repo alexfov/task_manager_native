@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from "react";
-import {
-    Text,
-    View,
-    StyleSheet,
-    Button,
-    SafeAreaView,
-    Dimensions,
-} from "react-native";
-// import ActionBtn from "../../components/ActionBtn";
+import React, { useEffect } from "react";
+import { StyleSheet, SafeAreaView, Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { bindCar, init } from "./carsAtions";
 import { getData, sortData } from "./carsFunctions";
 import FlatListItem from "../../components/FlatlistItem";
 import { FlatList } from "react-native-gesture-handler";
 
-const { height, width } = Dimensions.get("window");
-
 function Cars({ navigation }) {
-    const cars = useSelector((state) => state.cars);
+    const cars = useSelector((state) =>
+        state.cars.filter((car) => car.belongs == null)
+    );
     const objId = useSelector((state) => state.tasks.activeObject);
     const dispatch = useDispatch();
 
