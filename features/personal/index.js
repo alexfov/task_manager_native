@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { bindEmployee, init } from "./personalActions";
 import { getData, sortData } from "./personalFunctions";
 import FlatListItem from "../../components/FlatlistItem";
+import { Transitioning } from "react-native-reanimated";
+import { transition } from "../../commonFunctions/transitions";
+import AsyncStorage from "@react-native-community/async-storage";
+import { groups } from "../../Database/personal";
 
 function Personal(props) {
+    // AsyncStorage.removeItem("personal");
+    const ref = useRef();
     const personal = useSelector((state) =>
         state.personal.filter((employee) => employee.belongs == null)
     );
@@ -19,30 +25,41 @@ function Personal(props) {
     }, []);
 
     const renderItem = ({ item, index }) => {
+        console.log(groups);
         return (
             <FlatListItem
                 name={item.last + " " + item.first}
                 group={
-                    personal[index]?.group !== personal[index - 1]?.group &&
-                    item.group
+                    personal[index]?.group !== personal[index - 1]?.group
+                        ? groups[item.group][0].toUpperCase()
+                        : ""
                 }
                 iconName={
                     item.isGeodesist ? "account-hard-hat" : "baby-face-outline"
                 }
                 adress={item.adress}
-                onPress={() => dispatch(bindEmployee({ id: item.id, objId }))}
+                onPress={() => {
+                    dispatch(bindEmployee({ id: item.id, objId }));
+                    ref.current?.animateNextTransition();
+                }}
             />
         );
     };
 
     return (
-        <SafeAreaView>
+        <Transitioning.View
+            transition={transition({
+                inAnim: "slide-left",
+                outAnim: "slide-left",
+            })}
+            ref={ref}
+        >
             <FlatList
                 data={personal}
                 renderItem={renderItem}
                 keyExtractor={(item) => String(item.id)}
             />
-        </SafeAreaView>
+        </Transitioning.View>
     );
 }
 

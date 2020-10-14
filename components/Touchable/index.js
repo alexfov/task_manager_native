@@ -11,7 +11,12 @@ function Touchable(props) {
     return (
         <>
             {isAndroid ? (
-                <TouchableNativeFeedback {...props} />
+                <TouchableNativeFeedback
+                    {...props}
+                    background={TouchableNativeFeedback.Ripple(
+                        props.background
+                    )}
+                />
             ) : (
                 <TouchableOpacity {...props} />
             )}

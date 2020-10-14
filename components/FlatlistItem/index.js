@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Text, View, StyleSheet, TouchableNativeFeedback } from "react-native";
-import { BaseButton } from "react-native-gesture-handler";
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { groups } from "../../Database/personal";
 import Touchable from "../Touchable";
 import styles from "./style";
 
@@ -28,9 +28,9 @@ function FlatListItem({ name, group, iconName, adress, onPress, belongs }) {
                     <View style={{ flex: 1 }}>
                         <Text style={styles.adress}>{adress}</Text>
                     </View>
-                    <View style={{ flex: 1 }}>
+                    {/* <View style={{ flex: 1 }}>
                         <Text style={styles.adress}>{belongs}</Text>
-                    </View>
+                    </View> */}
                 </View>
             </View>
         </Touchable>

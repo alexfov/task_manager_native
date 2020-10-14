@@ -3,7 +3,8 @@ import { StyleSheet, View, Text, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabBarNavigation, { navigationRef } from "./Navigation/Tabs/Tabs";
-import CarAddModal from "./features/cars/carAddModal";
+import AddEmployee from "./features/personal/addEmployee";
+import AddCar from "./features/cars/addCar";
 
 const Stack = createStackNavigator();
 function App(props) {
@@ -15,28 +16,11 @@ function App(props) {
                         backgroundColor: "#212121",
                     },
                     headerTintColor: "#fff",
-                    cardStyle: { backgroundColor: "transparent" },
-                    cardOverlayEnabled: true,
-                    cardStyleInterpolator: ({ current: { progress } }) => ({
-                        cardStyle: {
-                            opacity: progress.interpolate({
-                                inputRange: [0, 0.5, 0.9, 1],
-                                outputRange: [0, 0.25, 0.7, 1],
-                            }),
-                        },
-                        overlayStyle: {
-                            opacity: progress.interpolate({
-                                inputRange: [0, 1],
-                                outputRange: [0, 0.7],
-                                extrapolate: "clamp",
-                            }),
-                        },
-                    }),
                 }}
-                mode="modal"
             >
                 <Stack.Screen name="tabs" component={TabBarNavigation} />
-                <Stack.Screen name="carAddModal" component={CarAddModal} />
+                <Stack.Screen name="addEmployee" component={AddEmployee} />
+                <Stack.Screen name="addCar" component={AddCar} />
             </Stack.Navigator>
         </NavigationContainer>
     );

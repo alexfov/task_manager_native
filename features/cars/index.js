@@ -1,12 +1,26 @@
-import React, { useEffect } from "react";
-import { StyleSheet, SafeAreaView, Dimensions } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet, SafeAreaView, Dimensions, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { bindCar, init } from "./carsAtions";
 import { getData, sortData } from "./carsFunctions";
 import FlatListItem from "../../components/FlatlistItem";
 import { FlatList } from "react-native-gesture-handler";
+import { Transition, Transitioning } from "react-native-reanimated";
+
+const transition = (
+    <Transition.Together>
+        <Transition.Out
+            type="slide-left"
+            durationMs={500}
+            interpolation="easeOut"
+        />
+        <Transition.Change durationMs={300} />
+    </Transition.Together>
+);
 
 function Cars({ navigation }) {
+    const ref = React.useRef();
+    const [left, setLeft] = useState(0);
     const cars = useSelector((state) =>
         state.cars.filter((car) => car.belongs == null)
     );
@@ -29,18 +43,23 @@ function Cars({ navigation }) {
                 }
                 iconName="car"
                 adress={item.owner}
-                onPress={() => dispatch(bindCar({ id: item.id, objId }))}
+                onPress={() => {
+                    dispatch(bindCar({ id: item.id, objId }));
+                    ref.current.animateNextTransition();
+                }}
             />
         );
     };
 
     return (
         <SafeAreaView>
-            <FlatList
-                data={cars}
-                renderItem={renderItem}
-                keyExtractor={(item) => String(item.id)}
-            />
+            <Transitioning.View ref={ref} transition={transition}>
+                <FlatList
+                    data={cars}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => String(item.id)}
+                />
+            </Transitioning.View>
         </SafeAreaView>
     );
 }

@@ -2,7 +2,9 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { personal as personalDb } from "../../Database/personal";
 
 export async function getData() {
-    const dataStorage = await AsyncStorage.getItem("personal");
+    const dataStorage = JSON.parse(await AsyncStorage.getItem("personal"));
+    !dataStorage &&
+        AsyncStorage.setItem("personal", JSON.stringify(personalDb));
     const data = dataStorage ?? personalDb;
     data.forEach((x) => (x.belongs = null));
     return data;

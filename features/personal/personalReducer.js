@@ -1,4 +1,5 @@
 import {
+    PERSONAL_ADD_EMPLOYEE,
     PERSONAL_BIND_EMPLOYEE,
     PERSONAL_INIT,
     PERSONAL_UNBIND_EMPLOYEE,
@@ -22,6 +23,9 @@ export function personalReducer(state = [], action) {
             // payload = employeId : integer
             i = stateCopy.findIndex((x) => x.id === action.payload);
             stateCopy[i].belongs = null;
+            return stateCopy;
+        case PERSONAL_ADD_EMPLOYEE:
+            stateCopy.push(payload);
             return stateCopy;
         default:
             return state;

@@ -1,53 +1,27 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Cars from "../../features/cars";
 import Personal from "../../features/personal";
 import Objects from "../../features/objects";
 import Tasks from "../../features/tasks";
 import styles from "./Styles";
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import HeaderRight from "./headerRight";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import ShareBtn from "../../components/ShareBtn";
+import {
+    tasksTabIcon,
+    carsTabIcon,
+    objectsTabIcon,
+    personalTabIcon,
+} from "./tabsIcons";
 
 export const navigationRef = React.createRef();
-
 export function navigate(name, params) {
     navigationRef.current?.navigate(name, params);
 }
 
-export function getHeaderTitle(route) {
-    const routeName = getFocusedRouteNameFromRoute(route) ?? "cars";
-
-    switch (routeName) {
-        case "cars":
-            return "Транспорт";
-        case "personal":
-            return "Персонал";
-        case "objects":
-            return "Объекты";
-        case "tasks":
-            return "Задания";
-    }
-}
-
 const Tab = createMaterialTopTabNavigator();
-
-const activeTintColor = "#fff";
-const inactiveTintColor = "rgba(255,255,255,0.5)";
-const iconSize = 20;
-
-const carsTabIcon = ({ focused, color }) => {
-    return <Icon name="car" size={iconSize} color={color} />;
-};
-const objectsTabIcon = ({ focused, color }) => {
-    return <Icon name="highway" size={iconSize} color={color} />;
-};
-const personalTabIcon = ({ focused, color }) => {
-    return <Icon name="account-hard-hat" size={iconSize} color={color} />;
-};
-const tasksTabIcon = ({ focused, color }) => {
-    return <Icon name="format-list-text" size={iconSize} color={color} />;
-};
 
 const TabBarNavigation = ({ navigation, route }) => {
     const currentObjectId = useSelector((state) => state.tasks.activeObject);
@@ -57,10 +31,21 @@ const TabBarNavigation = ({ navigation, route }) => {
         )[0];
         return objItem === undefined ? "Объект не выбран" : objItem.name;
     });
+    const message = useSelector((state) => state.tasks.message);
+    const routeName = getFocusedRouteNameFromRoute(route);
 
-    React.useLayoutEffect(() => {
-        navigation.setOptions({ headerTitle: currentObjectName });
-    }, [currentObjectName]);
+    React.useEffect(() => {
+        if (routeName === "tasks")
+            navigation.setOptions({
+                headerTitle: "Задание",
+                headerRight: () => <ShareBtn message={message} />,
+            });
+        else
+            navigation.setOptions({
+                headerTitle: currentObjectName,
+                headerRight: () => <HeaderRight />,
+            });
+    }, [currentObjectName, route]);
 
     return (
         <Tab.Navigator
@@ -69,8 +54,8 @@ const TabBarNavigation = ({ navigation, route }) => {
                 showIcon: true,
                 pressColor: "rgba(255,255,255,0.1)",
                 labelStyle: styles.labelStyle,
-                activeTintColor: activeTintColor,
-                inactiveTintColor: inactiveTintColor,
+                activeTintColor: "#fff",
+                inactiveTintColor: "rgba(255,255,255,0.5)",
                 tabStyle: styles.tabStyle,
                 indicatorStyle: styles.indicatorStyle,
                 style: styles.tabBar,
@@ -84,6 +69,7 @@ const TabBarNavigation = ({ navigation, route }) => {
                     tabBarLabel: "Задания",
                     tabBarIcon: tasksTabIcon,
                 }}
+                navigationParent={navigation}
             />
             <Tab.Screen
                 name="objects"

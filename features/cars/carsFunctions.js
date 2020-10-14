@@ -4,6 +4,7 @@ import { cars as carsDb } from "../../Database/cars";
 export async function getData() {
     const dataStorage = await AsyncStorage.getItem("cars");
     const data = dataStorage ?? carsDb;
+    // const data = carsDb;
     data.forEach((x) => (x.belongs = null));
     return data;
 }

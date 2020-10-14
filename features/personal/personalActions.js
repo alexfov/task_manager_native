@@ -1,4 +1,5 @@
 import {
+    PERSONAL_ADD_EMPLOYEE,
     PERSONAL_BIND_EMPLOYEE,
     PERSONAL_INIT,
     PERSONAL_UNBIND_EMPLOYEE,
@@ -21,6 +22,13 @@ export function bindEmployee(payload) {
 export function unbindEmployee(payload) {
     return {
         type: PERSONAL_UNBIND_EMPLOYEE,
+        payload,
+    };
+}
+
+export function addEmployee(payload) {
+    return {
+        type: PERSONAL_ADD_EMPLOYEE,
         payload,
     };
 }

@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useDispatch } from "react-redux";
+import { init } from "../../features/tasks/tasksActions";
 import { navigate } from "../../Navigation/Tabs/Tabs";
 
 function ActionBtn(props) {
+    const dispatch = useDispatch();
     return (
         <View
             style={{
@@ -20,14 +23,14 @@ function ActionBtn(props) {
                 <ActionButton.Item
                     buttonColor="#52ce14"
                     title="Новая машина"
-                    onPress={() => {}}
+                    onPress={() => navigate("addCar")}
                 >
                     <Icon name="car" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
                 <ActionButton.Item
                     buttonColor="#3498db"
                     title="Новый сотрудник"
-                    onPress={() => {}}
+                    onPress={() => navigate("addEmployee")}
                 >
                     <Icon
                         name="account-hard-hat"
@@ -44,7 +47,10 @@ function ActionBtn(props) {
                 <ActionButton.Item
                     buttonColor="#1abc9c"
                     title="Новое задание"
-                    onPress={() => {}}
+                    onPress={() => {
+                        dispatch(init());
+                        navigate("objects");
+                    }}
                 >
                     <Icon
                         name="format-list-text"
