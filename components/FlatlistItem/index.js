@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { groups } from "../../Database/personal";
 import Touchable from "../Touchable";
 import styles from "./style";
+import constants from "../../constants";
 
 const getIcon = (iconName) => {
     const iconSize = 28;
@@ -11,9 +12,21 @@ const getIcon = (iconName) => {
     return <Icon name={iconName} size={iconSize} color={iconColor} />;
 };
 
-function FlatListItem({ name, group, iconName, adress, onPress, belongs }) {
+function FlatListItem({
+    name,
+    group,
+    iconName,
+    adress,
+    onPress,
+    onLongPress,
+    belongs,
+}) {
     return (
-        <Touchable onPress={onPress}>
+        <Touchable
+            onPress={onPress}
+            onLongPress={onLongPress}
+            delayLongPress={constants.vibrationDelay}
+        >
             <View style={styles.item}>
                 <View style={styles.group}>
                     <Text style={styles.groupText}>{group}</Text>

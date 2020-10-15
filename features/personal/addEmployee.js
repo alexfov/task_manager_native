@@ -1,15 +1,18 @@
+import AsyncStorage from "@react-native-community/async-storage";
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { Button, CheckBox, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { alertAsync } from "../../commonFunctions/alertAsync";
 import { groups } from "../../Database/personal";
+import { addEmployee } from "./personalActions";
 
-function AddEmployee(props) {
+function AddEmployee({ navigation }) {
     const maxEmployeeIndex = useSelector(
         (state) => state.personal.reduce((a, b) => (a.id > b.id ? a : b)).id
     );
+    const personal = useSelector((state) => state.personal);
     const [last, setLast] = useState("");
     const [first, setFirst] = useState("");
     const [adress, setAdress] = useState("");
@@ -18,17 +21,25 @@ function AddEmployee(props) {
     const [isBtnDisabled, setIsBtnDisabled] = useState(true);
     const errorMessage = "Эй, это надо заполнить!";
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         if (last.length === 0 || first.length === 0) setIsBtnDisabled(true);
         else setIsBtnDisabled(false);
     }, [last, first]);
 
+    useEffect(() => {
+        AsyncStorage.setItem("personal", JSON.stringify(personal));
+    }, [personal.length]);
+
     const onSubmit = async () => {
         if (last.length === 0 || first.length === 0) return;
         const confirmation = await alertAsync("Добавить сотрудника?");
         if (!confirmation) return;
-        const newEmployee = { first, last, isGeodesist, adress, group };
-        console.log(newEmployee);
+        const id = maxEmployeeIndex + 1;
+        const newEmployee = { id, first, last, isGeodesist, adress, group };
+        dispatch(addEmployee(newEmployee));
+        navigation.navigate("personal");
     };
 
     return (

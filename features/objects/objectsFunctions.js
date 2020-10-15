@@ -2,13 +2,8 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { objects as objectsDb } from "../../Database/objects";
 
 export async function getData() {
-    const dataStorage = await AsyncStorage.getItem("objects");
+    const dataStorage = JSON.parse(await AsyncStorage.getItem("objects"));
     const data = dataStorage ?? objectsDb;
-    data.forEach((item) => {
-        item.cars = new Set();
-        item.personal = new Set();
-        item.tasks = new Set();
-    });
     return data;
 }
 

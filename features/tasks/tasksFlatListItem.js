@@ -11,7 +11,7 @@ import Touchable from "../../components/Touchable";
 import styles from "../../components/FlatlistItem/style";
 import { unbindEmployee } from "../personal/personalActions";
 import { useDispatch } from "react-redux";
-import { unbindCar } from "../cars/carsAtions";
+import { unbindCar } from "../cars/carsActions";
 import constants from "../../constants";
 
 const getIcon = (iconName) => {
@@ -21,10 +21,19 @@ const getIcon = (iconName) => {
 };
 
 const TasksFlatListItem = React.forwardRef(
-    ({ name, group, iconName, onPress, cars, personal }, ref) => {
+    (
+        { name, group, iconName, onPress, cars, personal, onLongPress, id },
+        ref
+    ) => {
         const dispatch = useDispatch();
         return (
-            <TouchableWithoutFeedback onPress={onPress}>
+            <Touchable
+                onPress={onPress}
+                onLongPress={() => {
+                    console.log(id);
+                }}
+                delayLongPress={constants.vibrationDelay}
+            >
                 <View style={styles.item}>
                     <View style={styles.group}>
                         <Text style={styles.groupText}>{group}</Text>
@@ -34,7 +43,9 @@ const TasksFlatListItem = React.forwardRef(
                     </View>
                     <View style={styles.textContainer}>
                         <View style={{ flex: 1 }}>
-                            <Text style={styles.name}>{name}</Text>
+                            <Text style={[styles.name, { fontWeight: "bold" }]}>
+                                {name}
+                            </Text>
                         </View>
                         <View style={{ flex: 1 }}>
                             <View style={stylesAdditional.carsBlock}>
@@ -57,7 +68,11 @@ const TasksFlatListItem = React.forwardRef(
                                         }
                                     >
                                         <View style={stylesAdditional.carText}>
-                                            <Text>/ {car.name} </Text>
+                                            <Text
+                                                style={{ fontStyle: "italic" }}
+                                            >
+                                                / {car.name}{" "}
+                                            </Text>
                                         </View>
                                     </Touchable>
                                 ))}
@@ -98,7 +113,7 @@ const TasksFlatListItem = React.forwardRef(
                         </View>
                     </View>
                 </View>
-            </TouchableWithoutFeedback>
+            </Touchable>
         );
     }
 );

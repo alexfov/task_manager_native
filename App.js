@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import TabBarNavigation, { navigationRef } from "./Navigation/Tabs/Tabs";
 import AddEmployee from "./features/personal/addEmployee";
 import AddCar from "./features/cars/addCar";
+import AddObject from "./features/objects/addObject";
 
 const Stack = createStackNavigator();
 function App(props) {
@@ -21,6 +22,7 @@ function App(props) {
                 <Stack.Screen name="tabs" component={TabBarNavigation} />
                 <Stack.Screen name="addEmployee" component={AddEmployee} />
                 <Stack.Screen name="addCar" component={AddCar} />
+                <Stack.Screen name="addObject" component={AddObject} />
             </Stack.Navigator>
         </NavigationContainer>
     );

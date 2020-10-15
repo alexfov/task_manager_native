@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Text, FlatList } from "react-native";
+import { Text, FlatList, Button, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import TasksFlatListItem from "./tasksFlatListItem";
 import { Transitioning } from "react-native-reanimated";
@@ -18,6 +18,7 @@ function Tasks({ navigation, route }) {
     objects.forEach((x) => [
         objectsMap.push({
             name: x.name,
+            id: x.id,
             cars: cars
                 .filter((car) => car.belongs === x.id)
                 .map((car) => {
@@ -30,6 +31,10 @@ function Tasks({ navigation, route }) {
                 }),
         }),
     ]);
+
+    const isTaskStarted = objectsMap.some(
+        (x) => x.personal.length > 0 || x.cars.length > 0
+    );
 
     const tomorrowDate = getTomorrowDate().toLocaleDateString();
     const tomorrowDay = getTomorrowWeekDay();
@@ -61,6 +66,7 @@ function Tasks({ navigation, route }) {
                 cars={item.cars}
                 personal={item.personal}
                 ref={ref}
+                id={item.id}
             />
         );
     };
@@ -74,15 +80,32 @@ function Tasks({ navigation, route }) {
             })}
             style={styles.item}
         >
-            <Text>Пока что не добавлено ни одного задания</Text>
-            <Text>
-                {tomorrowDate} {tomorrowDay}
-            </Text>
-            <FlatList
-                data={objectsMap}
-                renderItem={renderItem}
-                keyExtractor={(item) => String(item.name)}
-            />
+            {isTaskStarted ? (
+                <>
+                    <Text
+                        style={{
+                            alignSelf: "center",
+                            fontSize: 18,
+                            fontWeight: "bold",
+                        }}
+                    >
+                        {tomorrowDate} {tomorrowDay}
+                    </Text>
+                    <FlatList
+                        data={objectsMap}
+                        renderItem={renderItem}
+                        keyExtractor={(item) => String(item.name)}
+                    />
+                </>
+            ) : (
+                <View style={{ padding: 16 }}>
+                    <Text style={{ fontSize: 16 }}>
+                        Пока что не добавлено ни одного задания. Нажми на
+                        <Text style={{ color: "red" }}> красную</Text> кнопку
+                        внизу, чтобы начать
+                    </Text>
+                </View>
+            )}
         </Transitioning.View>
     );
 }

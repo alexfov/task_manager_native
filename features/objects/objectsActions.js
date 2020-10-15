@@ -1,7 +1,7 @@
 import {
     OBJECTS_ADD,
     OBJECTS_INIT,
-    OBJECTS_ADD_EMPLOYEE,
+    OBJECTS_DELETE,
 } from "./objectsConstants.js";
 
 export function init(payload) {
@@ -11,16 +11,16 @@ export function init(payload) {
     };
 }
 
-export function add(payload) {
+export function addObject(payload) {
     return {
         type: OBJECTS_ADD,
         payload,
     };
 }
 
-export function addEmployee(payload) {
+export function deleteObject(payload) {
     return {
-        type: OBJECTS_ADD_EMPLOYEE,
+        type: OBJECTS_DELETE,
         payload,
     };
 }

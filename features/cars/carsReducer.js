@@ -1,4 +1,10 @@
-import { CARS_BIND_CAR, CARS_INIT, CARS_UNBIND_CAR } from "./carsConstants";
+import {
+    CARS_ADD_CAR,
+    CARS_BIND_CAR,
+    CARS_DELETE_CAR,
+    CARS_INIT,
+    CARS_UNBIND_CAR,
+} from "./carsConstants";
 
 export function carsReducer(state = [], action) {
     const stateCopy = [];
@@ -18,6 +24,15 @@ export function carsReducer(state = [], action) {
             // payload = carId : integer
             i = stateCopy.findIndex((x) => x.id === action.payload);
             stateCopy[i].belongs = null;
+            return stateCopy;
+        case CARS_DELETE_CAR:
+            // payload = carId : integer
+            i = stateCopy.findIndex((x) => x.id === action.payload);
+            stateCopy.splice(i, 1);
+            return stateCopy;
+        case CARS_ADD_CAR:
+            // payload = {new car}
+            stateCopy.push(action.payload);
             return stateCopy;
         default:
             return state;

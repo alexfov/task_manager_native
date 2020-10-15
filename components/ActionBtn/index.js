@@ -40,7 +40,7 @@ function ActionBtn(props) {
                 <ActionButton.Item
                     buttonColor="#9b59b6"
                     title="Новый объект"
-                    onPress={() => navigate("cars")}
+                    onPress={() => navigate("addObject")}
                 >
                     <Icon name="highway" style={styles.actionButtonIcon} />
                 </ActionButton.Item>
