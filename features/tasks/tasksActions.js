@@ -1,5 +1,5 @@
 import {
-    TASKS_ADD_OBJECT,
+    TASKS_ADD,
     TASKS_INIT,
     TASKS_SET_ACTIVE_OBJECT,
     TASKS_SET_MESSAGE,
@@ -8,13 +8,6 @@ import {
 export function init() {
     return {
         type: TASKS_INIT,
-    };
-}
-
-export function addObject(payload) {
-    return {
-        type: TASKS_ADD_OBJECT,
-        payload,
     };
 }
 
@@ -28,6 +21,13 @@ export function setActiveObject(payload) {
 export function setMessage(payload) {
     return {
         type: TASKS_SET_MESSAGE,
+        payload,
+    };
+}
+
+export function addTask(payload) {
+    return {
+        type: TASKS_ADD,
         payload,
     };
 }

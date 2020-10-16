@@ -1,13 +1,7 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
-import {
-    BottomSheet,
-    Button,
-    CheckBox,
-    Input,
-    ListItem,
-} from "react-native-elements";
+import { Button, CheckBox, Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
 import { alertAsync } from "../../commonFunctions/alertAsync";
@@ -44,18 +38,6 @@ function AddObject({ navigation }) {
         dispatch(addObject(newObj));
         navigation.navigate("objects");
     };
-
-    const [isVisible, setIsVisible] = useState(false);
-    const list = [
-        { title: "List Item 1" },
-        { title: "List Item 2" },
-        {
-            title: "Cancel",
-            containerStyle: { backgroundColor: "red" },
-            titleStyle: { color: "white" },
-            onPress: () => setIsVisible(false),
-        },
-    ];
 
     return (
         <ScrollView style={styles.container}>
@@ -95,21 +77,6 @@ function AddObject({ navigation }) {
                 </View>
             </View>
             <Button onPress={() => setIsVisible(!isVisible)} title="asdas" />
-            <BottomSheet isVisible={isVisible}>
-                {list.map((l, i) => (
-                    <ListItem
-                        key={i}
-                        containerStyle={l.containerStyle}
-                        onPress={l.onPress}
-                    >
-                        <ListItem.Content>
-                            <ListItem.Title style={l.titleStyle}>
-                                {l.title}
-                            </ListItem.Title>
-                        </ListItem.Content>
-                    </ListItem>
-                ))}
-            </BottomSheet>
         </ScrollView>
     );
 }

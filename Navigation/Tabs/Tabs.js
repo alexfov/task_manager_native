@@ -31,14 +31,13 @@ const TabBarNavigation = ({ navigation, route }) => {
         )[0];
         return objItem === undefined ? "Объект не выбран" : objItem.name;
     });
-    const message = useSelector((state) => state.tasks.message);
     const routeName = getFocusedRouteNameFromRoute(route);
 
     React.useEffect(() => {
         if (routeName === "tasks")
             navigation.setOptions({
                 headerTitle: "Задание",
-                headerRight: () => <ShareBtn message={message} />,
+                headerRight: () => <ShareBtn />,
             });
         else
             navigation.setOptions({

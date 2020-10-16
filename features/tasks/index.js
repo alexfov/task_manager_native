@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { createRef, useEffect, useRef, useState } from "react";
 import { Text, FlatList, Button, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import TasksFlatListItem from "./tasksFlatListItem";
+import TasksFlatListItem from "./__tasksFlatListItem";
 import { Transitioning } from "react-native-reanimated";
 import { transition } from "../../commonFunctions/transitions";
 import {
@@ -9,11 +9,17 @@ import {
     getTomorrowWeekDay,
 } from "../../commonFunctions/date";
 import { setMessage } from "./tasksActions";
+import AddTask from "./addTask";
+
+export const ref = createRef();
 
 function Tasks({ navigation, route }) {
-    const ref = React.useRef();
+    const [task, setTask] = useState("");
+    const [isVisible, setIsVisible] = useState(false);
+
     const dispatch = useDispatch();
     const { cars, personal, objects } = useSelector((state) => state);
+    const addedTasks = useSelector((state) => state.tasks.tasks);
     const objectsMap = [];
     objects.forEach((x) => [
         objectsMap.push({
@@ -29,6 +35,7 @@ function Tasks({ navigation, route }) {
                 .map((employee) => {
                     return { name: employee.last, id: employee.id };
                 }),
+            task: addedTasks[x.id],
         }),
     ]);
 
@@ -44,7 +51,11 @@ function Tasks({ navigation, route }) {
         .filter((obj) => obj.cars.length + obj.personal.length > 0)
         .forEach((obj) => {
             message += `*${obj.name}*\r\n`;
-            message += `_${obj.cars.map((car) => car.name).join(" / ")}_\r\n`;
+            obj.task && (message += `_( ${obj.task} )_\r\n`);
+            obj.cars.length &&
+                (message += `_${obj.cars
+                    .map((car) => car.name)
+                    .join(" / ")}_\r\n`);
             message += obj.personal
                 .map((employee, i) => `${i + 1}. ${employee.name}`)
                 .join("\r\n");
@@ -65,8 +76,9 @@ function Tasks({ navigation, route }) {
                 iconName="map-marker"
                 cars={item.cars}
                 personal={item.personal}
-                ref={ref}
                 id={item.id}
+                onLongPress={() => setIsVisible(true)}
+                setTask={setTask}
             />
         );
     };
@@ -106,6 +118,12 @@ function Tasks({ navigation, route }) {
                     </Text>
                 </View>
             )}
+            <AddTask
+                isVisible={isVisible}
+                task={task}
+                setTask={setTask}
+                setIsVisible={setIsVisible}
+            />
         </Transitioning.View>
     );
 }

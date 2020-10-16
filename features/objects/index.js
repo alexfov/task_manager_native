@@ -13,7 +13,7 @@ import { Transitioning } from "react-native-reanimated";
 import { transition } from "../../commonFunctions/transitions";
 
 function Objects(props) {
-    const objects = useSelector((state) => state.objects);
+    const { objects, cars, personal } = useSelector((state) => state);
     const ref = useRef();
     const dispatch = useDispatch();
     useEffect(() => {
@@ -34,6 +34,15 @@ function Objects(props) {
     };
 
     const renderItem = ({ item, index }) => {
+        const personalCount = personal.filter((x) => x.belongs === item.id)
+            .length;
+        const hasCars = cars.some((x) => x.belongs === item.id);
+        const color =
+            personalCount > 1 && hasCars
+                ? "rgba(0, 255, 0, 0.4)"
+                : personalCount || hasCars
+                ? "rgba(255, 255, 0, 0.4)"
+                : "transparent";
         return (
             <FlatListItem
                 name={item.name}
@@ -46,6 +55,7 @@ function Objects(props) {
                 adress={directions[item.direction]}
                 onPress={() => dispatch(setActiveObject(item.id))}
                 onLongPress={() => onObjectLongPress(item.id)}
+                containerStyle={{ backgroundColor: color }}
             />
         );
     };

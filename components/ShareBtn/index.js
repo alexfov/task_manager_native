@@ -1,11 +1,13 @@
 import React from "react";
 import { Share, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useSelector } from "react-redux";
 import Touchable from "../Touchable";
 
 const whatsAppIcon = <Icon name="whatsapp" size={30} color="#fff" />;
 
-function ShareBtn({ message }) {
+function ShareBtn(props) {
+    const message = useSelector((state) => state.tasks.message);
     const onShare = async () => {
         try {
             const result = await Share.share({

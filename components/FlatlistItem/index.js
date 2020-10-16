@@ -19,7 +19,7 @@ function FlatListItem({
     adress,
     onPress,
     onLongPress,
-    belongs,
+    ...props
 }) {
     return (
         <Touchable
@@ -27,7 +27,7 @@ function FlatListItem({
             onLongPress={onLongPress}
             delayLongPress={constants.vibrationDelay}
         >
-            <View style={styles.item}>
+            <View style={[styles.item, props.containerStyle]}>
                 <View style={styles.group}>
                     <Text style={styles.groupText}>{group}</Text>
                 </View>
