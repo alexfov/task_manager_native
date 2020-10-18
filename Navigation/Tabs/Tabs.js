@@ -60,6 +60,7 @@ const TabBarNavigation = ({ navigation, route }) => {
                 style: styles.tabBar,
                 iconStyle: styles.iconStyle,
             }}
+            timingConfig={{ duration: 400 }}
         >
             <Tab.Screen
                 name="tasks"
