@@ -19,13 +19,13 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
+StatusBar.setBackgroundColor("#4396FD");
+
 function App1() {
   return (
     <Provider store={store}>
-      <StatusBar backgroundColor="#1e1e1e" />
+      {/* <StatusBar backgroundColor="#4396FD" /> */}
       <App />
-      {/* <ActionBtn /> */}
-      {/* <FAB /> */}
       <FAB1 />
     </Provider>
   );

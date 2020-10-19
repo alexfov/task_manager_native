@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabBarNavigation, { navigationRef } from "./Navigation/Tabs/Tabs";
@@ -9,7 +9,7 @@ import AddObject from "./features/objects/addObject";
 import { enableScreens } from "react-native-screens";
 import AsyncStorage from "@react-native-community/async-storage";
 import RNBootSplash from "react-native-bootsplash";
-// RNBootSplash.show();
+RNBootSplash.show();
 enableScreens();
 // AsyncStorage.removeItem("personal");
 // AsyncStorage.removeItem("cars");
@@ -17,8 +17,11 @@ enableScreens();
 const Stack = createStackNavigator();
 function App(props) {
   useEffect(() => {
-    RNBootSplash.hide({ duration: 250 });
-  });
+    setTimeout(() => {
+      RNBootSplash.hide({ duration: 250 });
+      StatusBar.setBackgroundColor("#1e1e1e");
+    }, 1000);
+  }, []);
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
